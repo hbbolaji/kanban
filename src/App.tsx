@@ -9,9 +9,9 @@ import Header from "./components/Header";
 function App() {
   const { dark } = useContext(UtilityContext);
   const [sidebar, setSidebar] = useState<boolean>(true);
-  const [mobileSidebar, setMobileSidebar] = useState<boolean>(true);
+  const [mobileSidebar, setMobileSidebar] = useState<boolean>(false);
   return (
-    <div className={`flex relative ${!dark && "dark"}`}>
+    <div className={`flex relative ${dark && "dark"}`}>
       {/* Mobile Sidebar */}
       {mobileSidebar ? (
         <div

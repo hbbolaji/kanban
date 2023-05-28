@@ -9,7 +9,8 @@ import {
   BsToggleOff,
 } from "react-icons/bs";
 import { UtilityContext } from "../context/utilityContext";
-// import { useLocation } from "react-router-dom";
+import { BoardContext } from "../context/boardContext";
+import { Link, useLocation } from "react-router-dom";
 
 interface Props {
   closeSidebar?: () => void;
@@ -17,7 +18,9 @@ interface Props {
 }
 
 const Sidebar: React.FC<Props> = ({ closeSidebar, closeMobileSidebar }) => {
-  // const {} = useLocation()
+  const { pathname } = useLocation();
+  const id = pathname.replace("/", "");
+  const { boards } = useContext(BoardContext);
   const { dark, toggleTheme } = useContext(UtilityContext);
   return (
     <div className="flex flex-col h-full pb-16">
@@ -25,28 +28,40 @@ const Sidebar: React.FC<Props> = ({ closeSidebar, closeMobileSidebar }) => {
       <div className="flex flex-col justify-between h-full">
         <div className="space-y-4">
           <p className="uppercase text-gray-500 dark:text-gray-300 text-xs md:text-sm pt-3 px-10 font-semibold tracking-wide">
-            All Board (3)
+            All Board ({boards.length})
           </p>
           {/* boards */}
           <div className="space-y-2 md:space-y-1">
-            <div className="flex space-x-2 items-center px-10 py-2 md:py-4 bg-indigo-500 mr-10 rounded-r-full">
-              <TbLayoutBoardSplit className="text-gray-50 text-xl" />
-              <p className="text-gray-50 text-sm md:text-base tracking-wide">
-                Platform Launch
-              </p>
-            </div>
-            <div className="flex space-x-2 items-center px-10 py-2 md:py-4 mr-10 rounded-r-full">
-              <TbLayoutBoardSplit className="text-gray-500 dark:text-gray-400 text-xl" />
-              <p className="text-gray-500 dark:text-gray-300 text-sm md:text-base tracking-wide">
-                Marketing Plan
-              </p>
-            </div>
-            <div className="flex space-x-2 items-center px-10 py-2 md:py-4 mr-10 rounded-r-full">
-              <TbLayoutBoardSplit className="text-gray-500 dark:text-gray-400 text-xl" />
-              <p className="text-gray-500 dark:text-gray-300 text-sm md:text-base tracking-wide">
-                Roadmap
-              </p>
-            </div>
+            {boards.map((board) => (
+              <Link
+                to={`/${board.id}`}
+                key={board.id}
+                className={`flex space-x-2 items-center px-10 py-2 md:py-4 ${
+                  board.id === id
+                    ? "bg-indigo-500"
+                    : "hover:bg-indigo-200 hover:bg-opacity-80"
+                } mr-10 rounded-r-full`}
+                onClick={closeMobileSidebar}
+              >
+                <TbLayoutBoardSplit
+                  className={`${
+                    board.id === id
+                      ? "text-gray-50"
+                      : "text-gray-500 dark:text-gray-400"
+                  } text-xl`}
+                />
+                <p
+                  className={`${
+                    board.id === id
+                      ? "text-gray-50"
+                      : "text-gray-500 dark:text-gray-300"
+                  } text-sm md:text-base tracking-wide`}
+                >
+                  {board.title}
+                </p>
+              </Link>
+            ))}
+
             <div className="flex space-x-2 items-center px-10 py-2 md:py-4 mr-10 rounded-r-full cursor-pointer">
               <TbLayoutBoardSplit className="text-indigo-500 text-xl" />
 
