@@ -77,9 +77,9 @@ const Sidebar: React.FC<Props> = ({ closeSidebar, closeMobileSidebar }) => {
             <BsFillSunFill className="text-base md:text-xl text-gray-700 dark:text-gray-400" />
             <div className="cursor-pointer" onClick={toggleTheme}>
               {dark ? (
-                <BsToggleOff className="text-2xl md:text-4xl text-indigo-500" />
-              ) : (
                 <BsToggleOn className="text-2xl md:text-4xl text-indigo-500" />
+              ) : (
+                <BsToggleOff className="text-2xl md:text-4xl text-indigo-500" />
               )}
             </div>
 

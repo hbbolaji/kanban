@@ -1,11 +1,29 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useParams } from "react-router-dom";
+import { BoardContext } from "../context/boardContext";
+import Column from "../components/Column";
 
 const Board = () => {
   const { id } = useParams();
+  const { boards } = useContext(BoardContext);
+  const board = boards.find((board) => board.id === id);
   return (
-    <div>
-      <p>Board: {id}</p>
+    <div className="flex items-start pr-8">
+      <div className="flex p-4">
+        {board?.statuses.map((status: string) => (
+          <div key={status} className="px-1">
+            <Column
+              tasks={board.tasks.filter((task) => task.status === status)}
+              status={status}
+            />
+          </div>
+        ))}
+      </div>
+      <div className="my-16 rounded-lg w-80 bg-slate-300 dark:bg-slate-800 h-screen flex justify-center items-center cursor-pointer">
+        <p className="text-base md:text-3xl font-semibold text-gray-400 dark:text-gray-500 tracking-wide">
+          + New Column
+        </p>
+      </div>
     </div>
   );
 };

@@ -55,10 +55,12 @@ function App() {
 
         {/* Board Section */}
         <div className="mt-16 md:mt-20">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/:id" element={<Board />} />
-          </Routes>
+          <div className="overflow-x-auto">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/:id" element={<Board />} />
+            </Routes>
+          </div>
         </div>
       </main>
     </div>
