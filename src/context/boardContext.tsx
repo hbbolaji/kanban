@@ -23,7 +23,10 @@ export interface BoardType {
 }
 
 interface Props {
-  boards: BoardType[];
+  boards: {
+    [key: string]: BoardType;
+  };
+  createProject: (board: BoardType, id: string) => void;
 }
 
 const initialSubtask: SubtaskType = { title: "", done: false };
@@ -34,22 +37,35 @@ const initialTask: TaskType = {
   taskId: "",
   description: "",
 };
-const initialBoards: BoardType = {
-  title: "",
-  tasks: [initialTask],
-  id: "",
-  statuses: [""],
+const initialBoards: { [key: string]: BoardType } = {
+  b: {
+    title: "",
+    tasks: [initialTask],
+    id: "",
+    statuses: [""],
+  },
 };
 
-export const BoardContext = createContext<Props>({ boards: [initialBoards] });
+export const BoardContext = createContext<Props>({
+  boards: initialBoards,
+  createProject: (board: BoardType, id: string) => {},
+});
 
 const BoardProvider = ({ children }: { children: JSX.Element }) => {
-  const [boards, setBoards] = useState<BoardType[]>([]);
+  const [boards, setBoards] = useState<{ [key: string]: BoardType }>({});
+
+  const createProject = (board: BoardType, id: string) => {
+    setBoards({ ...boards, [id]: board });
+  };
+
   useEffect(() => {
     setBoards(data);
   }, []);
+
   return (
-    <BoardContext.Provider value={{ boards }}>{children}</BoardContext.Provider>
+    <BoardContext.Provider value={{ boards, createProject }}>
+      {children}
+    </BoardContext.Provider>
   );
 };
 

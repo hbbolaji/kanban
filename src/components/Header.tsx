@@ -16,8 +16,10 @@ const Header: React.FC<Props> = ({
   openMobileSidebar,
 }) => {
   const { pathname } = useLocation();
-  const id = pathname.replace("/", "");
+  let id = pathname.replace("/", "").replaceAll("-", "");
+  id = `b${id}`;
   const { boards } = useContext(BoardContext);
+  console.log(id);
   return (
     <div className="h-16 md:h-20 flex items-center justify-between px-5 relative">
       <div className="flex items-center space-x-3">
@@ -28,7 +30,7 @@ const Header: React.FC<Props> = ({
           <LogoIcon />
         </div>
         <h2 className="text-gray-500 dark:text-gray-200 text-xl font-medium md:text-2xl">
-          {boards.find((board) => board.id === id)?.title}
+          {boards[id]?.title}
         </h2>
       </div>
       <div className="flex items-center space-x-3">

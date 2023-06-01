@@ -36,13 +36,13 @@ function App() {
 
       {/* Main Page */}
       <main
-        className={`bg-slate-200 dark:bg-slate-900 flex-1 min-h-screen relative ${
+        className={`bg-slate-200 dark:bg-slate-900 overflow-auto flex-1 h-screen w-full relative ${
           sidebar && "md:ml-80 xl:ml-96"
         }`}
       >
         {/* Header */}
         <header
-          className={`h-16 md:h-20 bg-gray-50 dark:bg-slate-700 border-b border-b-gray-200 dark:border-b-slate-600 fixed top-0 right-0 w-full`}
+          className={`h-16 md:h-20 bg-gray-50 dark:bg-slate-700 border-b border-b-gray-200 dark:border-b-slate-600 fixed top-0 right-0 w-screen`}
         >
           <div className={`${sidebar && "md:ml-80 xl:ml-96"}`}>
             <Header
@@ -55,7 +55,7 @@ function App() {
 
         {/* Board Section */}
         <div className="mt-16 md:mt-20">
-          <div className="overflow-x-auto">
+          <div className="">
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/:id" element={<Board />} />

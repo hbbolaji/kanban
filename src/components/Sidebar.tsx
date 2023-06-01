@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import Logo from "./Logo";
 import { TbLayoutBoardSplit } from "react-icons/tb";
 import {
@@ -11,6 +11,7 @@ import {
 import { UtilityContext } from "../context/utilityContext";
 import { BoardContext } from "../context/boardContext";
 import { Link, useLocation } from "react-router-dom";
+import Modal from "./Modal";
 
 interface Props {
   closeSidebar?: () => void;
@@ -19,20 +20,21 @@ interface Props {
 
 const Sidebar: React.FC<Props> = ({ closeSidebar, closeMobileSidebar }) => {
   const { pathname } = useLocation();
+  const [show, setShow] = useState<boolean>(false);
   const id = pathname.replace("/", "");
   const { boards } = useContext(BoardContext);
   const { dark, toggleTheme } = useContext(UtilityContext);
   return (
-    <div className="flex flex-col h-full pb-16">
+    <div className="relative flex flex-col h-full pb-16">
       <Logo />
       <div className="flex flex-col justify-between h-full">
         <div className="space-y-4">
           <p className="uppercase text-gray-500 dark:text-gray-300 text-xs md:text-sm pt-3 px-10 font-semibold tracking-wide">
-            All Board ({boards.length})
+            All Board ({Object.keys(boards).length})
           </p>
           {/* boards */}
           <div className="space-y-2 md:space-y-1">
-            {boards.map((board) => (
+            {Object.values(boards).map((board) => (
               <Link
                 to={`/${board.id}`}
                 key={board.id}
@@ -62,9 +64,13 @@ const Sidebar: React.FC<Props> = ({ closeSidebar, closeMobileSidebar }) => {
               </Link>
             ))}
 
-            <div className="flex space-x-2 items-center px-10 py-2 md:py-4 mr-10 rounded-r-full cursor-pointer">
+            <div
+              className="flex space-x-2 items-center px-10 py-2 md:py-4 mr-10 rounded-r-full cursor-pointer"
+              onClick={() => {
+                setShow(true);
+              }}
+            >
               <TbLayoutBoardSplit className="text-indigo-500 text-xl" />
-
               <p className="text-indigo-500 text-sm md:text-base tracking-wide">
                 <span>+</span>Create New Board
               </p>
@@ -96,6 +102,9 @@ const Sidebar: React.FC<Props> = ({ closeSidebar, closeMobileSidebar }) => {
           </div>
         </div>
       </div>
+      <Modal open={show} close={() => setShow(false)}>
+        <p>Modal Child</p>
+      </Modal>
     </div>
   );
 };

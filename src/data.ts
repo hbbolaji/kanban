@@ -1,11 +1,11 @@
-const data = [
-  {
+const data = {
+  bf4090838181a4d9fab064dbebc779728: {
     title: "Platform Launch",
     id: "f4090838-181a-4d9f-ab06-4dbebc779728",
     tasks: [],
     statuses: ["Todo", "Doing", "Done"],
   },
-  {
+  b6ef5a777a4c64288bffb59e0e7f44dfa: {
     title: "Marketting Plan",
     id: "6ef5a777-a4c6-4288-bffb-59e0e7f44dfa",
     tasks: [
@@ -69,12 +69,12 @@ const data = [
     ],
     statuses: ["Todo", "Doing", "Done"],
   },
-  {
+  b8db87ce313884348a9047f97f4c7e0ab: {
     title: "Roadmap",
     id: "8db87ce3-1388-4348-a904-7f97f4c7e0ab",
     tasks: [],
     statuses: ["Todo", "Doing", "Done"],
   },
-];
+};
 
 export default data;

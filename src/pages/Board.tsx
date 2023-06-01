@@ -6,9 +6,11 @@ import Column from "../components/Column";
 const Board = () => {
   const { id } = useParams();
   const { boards } = useContext(BoardContext);
-  const board = boards.find((board) => board.id === id);
+  let boardId = id?.replace("/", "").replaceAll("-", "");
+  boardId = `b${boardId}`;
+  const board = boards[boardId];
   return (
-    <div className="flex items-start pr-8">
+    <div className="flex items-start">
       <div className="flex p-4">
         {board?.statuses.map((status: string) => (
           <div key={status} className="px-1">
@@ -19,8 +21,8 @@ const Board = () => {
           </div>
         ))}
       </div>
-      <div className="my-16 rounded-lg w-80 bg-slate-300 dark:bg-slate-800 h-screen flex justify-center items-center cursor-pointer">
-        <p className="text-base md:text-3xl font-semibold text-gray-400 dark:text-gray-500 tracking-wide">
+      <div className="my-16 rounded-lg bg-slate-300 dark:bg-slate-800 h-screen flex justify-center items-center cursor-pointer mr-12">
+        <p className="text-base md:text-3xl font-semibold text-gray-400 dark:text-gray-500 tracking-wide w-80 text-center">
           + New Column
         </p>
       </div>
