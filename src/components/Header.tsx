@@ -19,7 +19,7 @@ const Header: React.FC<Props> = ({
   let id = pathname.replace("/", "").replaceAll("-", "");
   id = `b${id}`;
   const { boards } = useContext(BoardContext);
-  console.log(id);
+
   return (
     <div className="h-16 md:h-20 flex items-center justify-between px-5 relative">
       <div className="flex items-center space-x-3">
