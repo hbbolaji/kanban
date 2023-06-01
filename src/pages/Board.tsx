@@ -13,6 +13,7 @@ const Board = () => {
         {board?.statuses.map((status: string) => (
           <div key={status} className="px-1">
             <Column
+              statuses={board.statuses}
               tasks={board.tasks.filter((task) => task.status === status)}
               status={status}
             />

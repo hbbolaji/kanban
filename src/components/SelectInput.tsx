@@ -5,6 +5,7 @@ interface Props {
   label: string;
   name: string;
   data: string[];
+  value?: string;
 }
 
 const SelectInput: React.FC<Props> = ({ ...props }) => {
