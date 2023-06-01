@@ -12,6 +12,7 @@ import { UtilityContext } from "../context/utilityContext";
 import { BoardContext } from "../context/boardContext";
 import { Link, useLocation } from "react-router-dom";
 import Modal from "./Modal";
+import AddProject from "./AddProject";
 
 interface Props {
   closeSidebar?: () => void;
@@ -103,7 +104,12 @@ const Sidebar: React.FC<Props> = ({ closeSidebar, closeMobileSidebar }) => {
         </div>
       </div>
       <Modal open={show} close={() => setShow(false)}>
-        <p>Modal Child</p>
+        <div className="space-y-2">
+          <h2 className="text-gray-700 dark:text-gray-300 text-base md:text-lg font-semibold text-center">
+            Create New Project
+          </h2>
+          <AddProject />
+        </div>
       </Modal>
     </div>
   );
