@@ -16,10 +16,8 @@ const Header: React.FC<Props> = ({
   openMobileSidebar,
 }) => {
   const { pathname } = useLocation();
-  let id = pathname.replace("/", "").replaceAll("-", "");
-  id = `b${id}`;
+  let id = pathname.split("/")[1];
   const { boards } = useContext(BoardContext);
-
   return (
     <div className="h-16 md:h-20 flex items-center justify-between px-5 relative">
       <div className="flex items-center space-x-3">

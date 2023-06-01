@@ -108,7 +108,7 @@ const Sidebar: React.FC<Props> = ({ closeSidebar, closeMobileSidebar }) => {
           <h2 className="text-gray-700 dark:text-gray-300 text-base md:text-lg font-semibold text-center">
             Create New Project
           </h2>
-          <AddProject />
+          <AddProject close={() => setShow(false)} />
         </div>
       </Modal>
     </div>

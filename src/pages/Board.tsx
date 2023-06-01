@@ -6,9 +6,7 @@ import Column from "../components/Column";
 const Board = () => {
   const { id } = useParams();
   const { boards } = useContext(BoardContext);
-  let boardId = id?.replace("/", "").replaceAll("-", "");
-  boardId = `b${boardId}`;
-  const board = boards[boardId];
+  const board = boards[id as string];
   return (
     <div className="flex items-start">
       <div className="flex p-4">
