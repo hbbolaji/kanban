@@ -35,7 +35,7 @@ const AddProject: React.FC<Props> = ({ close }) => {
               title: value.title,
               id,
               statuses,
-              tasks: [],
+              tasks: {},
             },
             id
           );

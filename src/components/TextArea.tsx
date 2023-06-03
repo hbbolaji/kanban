@@ -22,6 +22,7 @@ const TextArea: React.FC<Props> = ({ ...props }) => {
           className="block w-full text-sm md:text-base bg-transparent border-2 p-2 border-gray-300 dark:border-gray-500 dark:text-gray-200 rounded outline-none"
           placeholder={label}
           rows={4}
+          id={name}
           {...field}
         />
       </div>

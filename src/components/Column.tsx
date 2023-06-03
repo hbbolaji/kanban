@@ -5,10 +5,9 @@ import Task from "./Task";
 interface Props {
   tasks: TaskType[];
   status: string;
-  statuses: string[];
 }
 
-const Column: React.FC<Props> = ({ statuses, tasks, status }) => {
+const Column: React.FC<Props> = ({ tasks, status }) => {
   return (
     <div className="w-80 space-y-6">
       <div className="flex items-center space-x-2 px-2">
@@ -20,7 +19,7 @@ const Column: React.FC<Props> = ({ statuses, tasks, status }) => {
       <div>
         {tasks.map((task: TaskType) => (
           <div key={task.taskId} className="p-2">
-            <Task task={task} statuses={statuses} />
+            <Task task={task} />
           </div>
         ))}
       </div>

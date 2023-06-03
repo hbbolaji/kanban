@@ -1,4 +1,4 @@
-import { ErrorMessage, useField } from "formik";
+import { ErrorMessage, FieldHookConfig, useField } from "formik";
 import React from "react";
 
 interface Props {
@@ -6,11 +6,12 @@ interface Props {
   name: string;
   data: string[];
   value?: string;
+  onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
 const SelectInput: React.FC<Props> = ({ ...props }) => {
-  const { label, name, data } = props;
-  const [field, meta] = useField(props);
+  const { label, name, data, onChange } = props;
+  const [field, meta] = useField({ ...props } as FieldHookConfig<any>);
   return (
     <div className="space-y-1">
       <div className="space-y-2">
@@ -23,7 +24,10 @@ const SelectInput: React.FC<Props> = ({ ...props }) => {
         <select
           className="block w-full text-sm md:text-base bg-transparent border-2 p-2 border-gray-300 dark:border-gray-500 dark:text-gray-200 rounded outline-none"
           placeholder={label}
-          {...field}
+          id={name}
+          value={field.value}
+          onChange={onChange}
+          // {...field}
         >
           <option value="">Choose a {label}</option>
           {data.map((dat) => (
