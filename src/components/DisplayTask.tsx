@@ -41,10 +41,7 @@ const DisplayTask: React.FC<Props> = ({ task }) => {
         <p className="flex-1 font-semibold tracking-wide text-gray-700 dark:text-gray-100 text-base md:text-xl">
           {task.title}
         </p>
-        <BsThreeDotsVertical
-          className="cursor-pointer text-xl text-gray-500 dark:text-gray-300"
-          onClick={() => changeStatus("Done")}
-        />
+        <BsThreeDotsVertical className="cursor-pointer text-xl text-gray-500 dark:text-gray-300" />
       </div>
       <p className="text-gray-500 dark:text-gray-400 text-sm md:text-sm leading-relaxed">
         {task.description}
