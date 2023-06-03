@@ -1,15 +1,40 @@
-import React from "react";
-import { SubtaskType, TaskType } from "../context/boardContext";
+import React, { useContext, useEffect } from "react";
+import { BoardContext, SubtaskType, TaskType } from "../context/boardContext";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import SelectInput from "./SelectInput";
 import { Form, Formik } from "formik";
 
 interface Props {
   task: TaskType;
-  statuses: string[];
 }
 
-const DisplayTask: React.FC<Props> = ({ task, statuses }) => {
+const DisplayTask: React.FC<Props> = ({ task }) => {
+  const { getActiveBoard, activeBoard, updateBoard, boards } =
+    useContext(BoardContext);
+
+  const setSubtaskToDone = (title: string) => {
+    const updatedsub = task.subtasks.find((sub) => sub.title === title);
+    const sub = [
+      { ...updatedsub, done: !updatedsub.done },
+      ...task.subtasks.filter((sub) => sub.title !== title),
+    ];
+    const updatedTask = { ...task, subtasks: sub };
+    const updateTasks = { ...activeBoard.tasks, [task.taskId]: updatedTask };
+    const updatedBoard = { ...activeBoard, tasks: updateTasks };
+    updateBoard({ ...boards, [task.boardId]: updatedBoard });
+  };
+
+  const changeStatus = (status: string) => {
+    const updatedTask = { ...task, status: status };
+    const updateTasks = { ...activeBoard.tasks, [task.taskId]: updatedTask };
+    const updatedBoard = { ...activeBoard, tasks: updateTasks };
+    updateBoard({ ...boards, [task.boardId]: updatedBoard });
+  };
+
+  useEffect(() => {
+    getActiveBoard(task.boardId);
+  }, [getActiveBoard, task.boardId]);
+
   return (
     <div className="space-y-4">
       <div className="flex items-center">
@@ -36,8 +61,9 @@ const DisplayTask: React.FC<Props> = ({ task, statuses }) => {
               <input
                 type="checkbox"
                 className="accent-indigo-500 inline-block text-xl"
-                value={sub.done}
                 name={sub.title}
+                checked={sub.done}
+                onChange={() => setSubtaskToDone(sub.title)}
               />
               <p
                 className={`flex-1 text-sm text-gray-600 dark:text-gray-200 ${
@@ -52,7 +78,14 @@ const DisplayTask: React.FC<Props> = ({ task, statuses }) => {
         <Formik initialValues={{ status: task.status }} onSubmit={() => {}}>
           {(formik) => (
             <Form>
-              <SelectInput name="status" label="Status" data={statuses} />
+              <SelectInput
+                name="status"
+                label="Status"
+                data={activeBoard.statuses}
+                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                  changeStatus(e.target.value);
+                }}
+              />
             </Form>
           )}
         </Formik>

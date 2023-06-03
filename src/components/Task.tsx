@@ -5,10 +5,9 @@ import Modal from "./Modal";
 
 interface Props {
   task: TaskType;
-  statuses: string[];
 }
 
-const Task: React.FC<Props> = ({ task, statuses }) => {
+const Task: React.FC<Props> = ({ task }) => {
   const [open, setOpen] = useState<boolean>(false);
   return (
     <>
@@ -23,7 +22,7 @@ const Task: React.FC<Props> = ({ task, statuses }) => {
         </p>
       </div>
       <Modal open={open} close={() => setOpen(false)}>
-        <DisplayTask task={task} statuses={statuses} />
+        <DisplayTask task={task} />
       </Modal>
     </>
   );

@@ -11,7 +11,11 @@ function App() {
   const [sidebar, setSidebar] = useState<boolean>(true);
   const [mobileSidebar, setMobileSidebar] = useState<boolean>(false);
   return (
-    <div className={`flex relative ${dark && "dark"}`}>
+    <div
+      className={`flex relative ${
+        dark && "dark"
+      } selection:bg-indigo-500 selection:text-slate-200`}
+    >
       {/* Mobile Sidebar */}
       {mobileSidebar ? (
         <div
