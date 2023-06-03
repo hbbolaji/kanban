@@ -80,7 +80,7 @@ const AddProject: React.FC<Props> = ({ close }) => {
               </div>
             </div>
             <button
-              className="w-full flex justify-center text-sm md:text-base text-center py-1 px-2 md:py-3 md:px-5 bg-indigo-500 rounded-full text-gray-100 flex items-center"
+              className="w-full flex justify-center text-sm md:text-base text-center py-2 px-4 md:py-3 md:px-2 bg-indigo-500 rounded-full text-gray-100 flex items-center"
               type="submit"
             >
               Create Project
