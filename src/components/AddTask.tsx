@@ -11,34 +11,44 @@ import { BsX } from "react-icons/bs";
 interface Props {
   boardId: string;
   close: () => void;
+  edit?: boolean;
+  task?: TaskType;
 }
 
-const AddTask: React.FC<Props> = ({ boardId, close }) => {
+const AddTask: React.FC<Props> = ({ boardId, close, task, edit }) => {
   const initialValues = {
-    title: "",
-    description: "",
-    status: "",
-    subtasks: [],
+    title: task?.title || "",
+    description: task?.description || "",
+    status: task?.status || "",
+    subtasks: task?.subtasks || [],
   };
   const { boards, updateBoard } = useContext(BoardContext);
   const board = boards[boardId];
   const taskId = () => `t${uuid()}`.replaceAll("-", "");
 
-  const createTask = (task: TaskType) => {
-    const updateTasks = { ...board.tasks, [task.taskId]: task };
+  const createTask = (newTask: TaskType) => {
+    const updateTasks = { ...board.tasks, [newTask.taskId]: newTask };
     const updatedBoard = { ...board, tasks: updateTasks };
-    updateBoard({ ...boards, [task.boardId]: updatedBoard });
+    updateBoard({ ...boards, [newTask.boardId]: updatedBoard });
   };
   return (
     <div className="space-y-6">
       <p className="font-semibold tracking-wide text-gray-700 dark:text-gray-100 text-base md:text-xl">
-        Add New Task
+        {edit ? "Update Task" : "Add New Task"}
       </p>
       <Formik
         initialValues={initialValues}
         validationSchema={validation}
         onSubmit={(values) => {
-          createTask({ ...values, boardId: board.id, taskId: taskId() });
+          if (edit) {
+            createTask({
+              ...values,
+              boardId: board.id,
+              taskId: task?.taskId || "",
+            });
+          } else {
+            createTask({ ...values, boardId: board.id, taskId: taskId() });
+          }
           close();
         }}
       >
@@ -85,7 +95,7 @@ const AddTask: React.FC<Props> = ({ boardId, close }) => {
               className="w-full flex justify-center text-sm md:text-base text-center py-2 px-4 md:py-2 md:px-2 bg-indigo-500 rounded-full text-gray-100 flex items-center font-semibold"
               type="submit"
             >
-              Create Task
+              {edit ? "Update Task" : "Create Task"}
             </button>
           </Form>
         )}
