@@ -4,7 +4,7 @@ import data from "../data";
 export interface SubtaskType {
   title: string;
   done: boolean;
-  id?: string;
+  id: string;
 }
 
 export interface TaskType {

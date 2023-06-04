@@ -15,11 +15,11 @@ const DisplayTask: React.FC<Props> = ({ task }) => {
   const { getActiveBoard, activeBoard, updateBoard, boards } =
     useContext(BoardContext);
 
-  const setSubtaskToDone = (title: string) => {
-    const updatedsub = task.subtasks.find((sub) => sub.title === title);
+  const setSubtaskToDone = (id: string) => {
+    const updatedsub = task.subtasks.find((sub) => sub.id === id);
     const sub = [
       { ...updatedsub, done: !updatedsub.done },
-      ...task.subtasks.filter((sub) => sub.title !== title),
+      ...task.subtasks.filter((sub) => sub.id !== id),
     ];
     const updatedTask = { ...task, subtasks: sub };
     const updateTasks = { ...activeBoard.tasks, [task.taskId]: updatedTask };
@@ -109,14 +109,14 @@ const DisplayTask: React.FC<Props> = ({ task }) => {
               {task.subtasks.map((sub) => (
                 <div
                   className="flex items-center bg-slate-200 dark:bg-slate-800 space-x-3 p-3 rounded"
-                  key={sub.title}
+                  key={sub.id}
                 >
                   <input
                     type="checkbox"
                     className="accent-indigo-500 inline-block text-xl"
                     name={sub.title}
                     checked={sub.done}
-                    onChange={() => setSubtaskToDone(sub.title)}
+                    onChange={() => setSubtaskToDone(sub.id)}
                   />
                   <p
                     className={`flex-1 text-sm text-gray-600 dark:text-gray-200 ${
