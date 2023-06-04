@@ -4,6 +4,7 @@ import data from "../data";
 export interface SubtaskType {
   title: string;
   done: boolean;
+  id?: string;
 }
 
 export interface TaskType {
@@ -34,7 +35,7 @@ interface Props {
   updateBoard: (boards: { [key: string]: BoardType }) => void;
 }
 
-const initialSubtask: SubtaskType = { title: "", done: false };
+const initialSubtask: SubtaskType = { title: "", done: false, id: "" };
 const initialTask: TaskType = {
   title: "",
   subtasks: [initialSubtask],
@@ -69,9 +70,7 @@ const BoardProvider = ({ children }: { children: JSX.Element }) => {
     setBoards({ ...boards, [id]: board });
   };
 
-  const checkSubtask = (boardId: string) => {
-    console.log(boardId);
-  };
+  const checkSubtask = (boardId: string) => {};
 
   const getActiveBoard = (boardId: string) => {
     setActiveBoard(boards[boardId]);

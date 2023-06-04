@@ -1,14 +1,19 @@
 import React, { useContext, useState } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import Home from "./pages/Home";
 import Board from "./pages/Board";
 import { UtilityContext } from "./context/utilityContext";
 import Sidebar from "./components/Sidebar";
 import Header from "./components/Header";
+import Modal from "./components/Modal";
+import AddTask from "./components/AddTask";
 
 function App() {
   const { dark } = useContext(UtilityContext);
+  const { pathname } = useLocation();
+  let id = pathname.split("/")[1];
   const [sidebar, setSidebar] = useState<boolean>(true);
+  const [open, setOpen] = useState<boolean>(false);
   const [mobileSidebar, setMobileSidebar] = useState<boolean>(false);
   return (
     <div
@@ -53,6 +58,7 @@ function App() {
               sidebar={sidebar}
               openMobileSidebar={() => setMobileSidebar(true)}
               openSidebar={() => setSidebar(true)}
+              openNewTask={() => setOpen(true)}
             />
           </div>
         </header>
@@ -67,6 +73,9 @@ function App() {
           </div>
         </div>
       </main>
+      <Modal open={open} close={() => setOpen(false)}>
+        <AddTask boardId={id} close={() => setOpen(false)} />
+      </Modal>
     </div>
   );
 }

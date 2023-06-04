@@ -8,12 +8,14 @@ interface Props {
   sidebar: boolean;
   openSidebar?: () => void;
   openMobileSidebar?: () => void;
+  openNewTask: () => void;
 }
 
 const Header: React.FC<Props> = ({
   sidebar,
   openSidebar,
   openMobileSidebar,
+  openNewTask,
 }) => {
   const { pathname } = useLocation();
   let id = pathname.split("/")[1];
@@ -31,15 +33,20 @@ const Header: React.FC<Props> = ({
           {boards[id]?.title}
         </h2>
       </div>
-      <div className="flex items-center space-x-3">
-        <button className="py-1 px-2 md:py-3 md:px-5 bg-indigo-500 rounded-full text-gray-100 flex items-center">
-          <span className="text-2xl text-white">
-            <BsPlus />
-          </span>{" "}
-          <span className="hidden md:inline">Add New Task</span>
-        </button>
-        <BsThreeDotsVertical className="cursor-pointer text-xl dark:text-gray-100 text-gray-700" />
-      </div>
+      {id !== "" ? (
+        <div className="flex items-center space-x-3">
+          <button
+            className="py-1 px-2 md:py-3 md:px-5 bg-indigo-500 rounded-full text-gray-100 flex items-center"
+            onClick={openNewTask}
+          >
+            <span className="text-2xl text-white">
+              <BsPlus />
+            </span>{" "}
+            <span className="hidden md:inline">Add New Task</span>
+          </button>
+          <BsThreeDotsVertical className="cursor-pointer text-xl dark:text-gray-100 text-gray-700" />
+        </div>
+      ) : null}
     </div>
   );
 };
