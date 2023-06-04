@@ -1,14 +1,17 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { BoardContext, SubtaskType, TaskType } from "../context/boardContext";
-import { BsThreeDotsVertical } from "react-icons/bs";
+import { BsPen, BsThreeDotsVertical, BsTrash, BsX } from "react-icons/bs";
 import SelectInput from "./SelectInput";
 import { Form, Formik } from "formik";
+import AddTask from "./AddTask";
 
 interface Props {
   task: TaskType;
 }
 
 const DisplayTask: React.FC<Props> = ({ task }) => {
+  const [edit, setEdit] = useState<boolean>(false);
+  const [show, setShow] = useState<boolean>(false);
   const { getActiveBoard, activeBoard, updateBoard, boards } =
     useContext(BoardContext);
 
@@ -31,66 +34,118 @@ const DisplayTask: React.FC<Props> = ({ task }) => {
     updateBoard({ ...boards, [task.boardId]: updatedBoard });
   };
 
+  const deleteTask = (taskId: string) => {
+    const newTasks = { ...activeBoard.tasks };
+    delete newTasks[taskId];
+    const updatedBoard = { ...activeBoard, tasks: newTasks };
+    updateBoard({ ...boards, [task.boardId]: updatedBoard });
+  };
+
   useEffect(() => {
     getActiveBoard(task.boardId);
   }, [getActiveBoard, task.boardId]);
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-center">
-        <p className="flex-1 font-semibold tracking-wide text-gray-700 dark:text-gray-100 text-base md:text-xl">
-          {task.title}
-        </p>
-        <BsThreeDotsVertical className="cursor-pointer text-xl text-gray-500 dark:text-gray-300" />
-      </div>
-      <p className="text-gray-500 dark:text-gray-400 text-sm md:text-sm leading-relaxed">
-        {task.description}
-      </p>
-      <div className="space-y-2">
-        <h4 className="text-gray-700 dark:text-gray-100 text-sm md:text-base tracking-wide font-semibold">
-          Subtasks (
-          {task.subtasks.filter((sub: SubtaskType) => sub.done === true).length}{" "}
-          of {task.subtasks.length})
-        </h4>
-        <div className="space-y-2">
-          {task.subtasks.map((sub) => (
-            <div
-              className="flex items-center bg-slate-200 dark:bg-slate-800 space-x-3 p-3 rounded"
-              key={sub.title}
-            >
-              <input
-                type="checkbox"
-                className="accent-indigo-500 inline-block text-xl"
-                name={sub.title}
-                checked={sub.done}
-                onChange={() => setSubtaskToDone(sub.title)}
-              />
-              <p
-                className={`flex-1 text-sm text-gray-600 dark:text-gray-200 ${
-                  sub.done ? "line-through" : ""
-                }`}
-              >
-                {sub.title}
-              </p>
-            </div>
-          ))}
+    <>
+      {edit ? (
+        <div>
+          <AddTask
+            close={() => setEdit(false)}
+            boardId={task.boardId}
+            task={task}
+            edit={true}
+          />
         </div>
-        <Formik initialValues={{ status: task.status }} onSubmit={() => {}}>
-          {(formik) => (
-            <Form>
-              <SelectInput
-                name="status"
-                label="Status"
-                data={activeBoard.statuses}
-                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-                  changeStatus(e.target.value);
-                }}
+      ) : (
+        <div className="space-y-4">
+          <div className="flex items-center relative">
+            <p className="flex-1 font-semibold tracking-wide text-gray-700 dark:text-gray-100 text-base md:text-xl">
+              {task.title}
+            </p>
+            {show ? (
+              <BsX
+                className="cursor-pointer text-3xl text-gray-500 dark:text-gray-300"
+                onClick={() => setShow(false)}
               />
-            </Form>
-          )}
-        </Formik>
-      </div>
-    </div>
+            ) : (
+              <BsThreeDotsVertical
+                className="cursor-pointer text-xl text-gray-500 dark:text-gray-300"
+                onClick={() => setShow(true)}
+              />
+            )}
+            {show ? (
+              <div className="absolute top-8 right-0 flex items-center rounded bg-slate-200 dark:bg-slate-900 shadow-lg">
+                <div
+                  className="cursor-pointer p-4 border-r border-r-slate-300 dark:border-r-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800"
+                  onClick={() => {
+                    setShow(false);
+                    setEdit(true);
+                  }}
+                >
+                  <BsPen className="text-xl text-gray-500 dark:text-gray-300" />
+                </div>
+                <div
+                  className="cursor-pointer p-4 hover:bg-slate-50 dark:hover:bg-slate-800"
+                  onClick={() => deleteTask(task.taskId)}
+                >
+                  <BsTrash className="text-xl text-gray-500 dark:text-gray-300" />
+                </div>
+              </div>
+            ) : null}
+          </div>
+          <p className="text-gray-500 dark:text-gray-400 text-sm md:text-sm leading-relaxed">
+            {task.description}
+          </p>
+          <div className="space-y-2">
+            <h4 className="text-gray-700 dark:text-gray-100 text-sm md:text-base tracking-wide font-semibold">
+              Subtasks (
+              {
+                task.subtasks.filter((sub: SubtaskType) => sub.done === true)
+                  .length
+              }{" "}
+              of {task.subtasks.length})
+            </h4>
+            <div className="space-y-2">
+              {task.subtasks.map((sub) => (
+                <div
+                  className="flex items-center bg-slate-200 dark:bg-slate-800 space-x-3 p-3 rounded"
+                  key={sub.title}
+                >
+                  <input
+                    type="checkbox"
+                    className="accent-indigo-500 inline-block text-xl"
+                    name={sub.title}
+                    checked={sub.done}
+                    onChange={() => setSubtaskToDone(sub.title)}
+                  />
+                  <p
+                    className={`flex-1 text-sm text-gray-600 dark:text-gray-200 ${
+                      sub.done ? "line-through" : ""
+                    }`}
+                  >
+                    {sub.title}
+                  </p>
+                </div>
+              ))}
+            </div>
+            <Formik initialValues={{ status: task.status }} onSubmit={() => {}}>
+              {(formik) => (
+                <Form>
+                  <SelectInput
+                    name="status"
+                    label="Status"
+                    data={activeBoard.statuses}
+                    onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                      changeStatus(e.target.value);
+                    }}
+                  />
+                </Form>
+              )}
+            </Formik>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 
