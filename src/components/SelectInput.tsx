@@ -16,7 +16,7 @@ const SelectInput: React.FC<Props> = ({ ...props }) => {
     <div className="space-y-1">
       <div className="space-y-2">
         <label
-          className="block text-xs md:text-sm text-gray-700 dark:text-gray-300"
+          className="block text-xs md:text-sm text-gray-700 dark:text-gray-300 font-semibold"
           htmlFor={name}
         >
           {label}
@@ -26,7 +26,7 @@ const SelectInput: React.FC<Props> = ({ ...props }) => {
           placeholder={label}
           id={name}
           value={field.value}
-          onChange={onChange}
+          onChange={onChange || field.onChange}
           // {...field}
         >
           <option value="">Choose a {label}</option>
