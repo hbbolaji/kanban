@@ -1,9 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 import { BoardContext, SubtaskType, TaskType } from "../context/boardContext";
-import { BsPen, BsThreeDotsVertical, BsTrash, BsX } from "react-icons/bs";
+import { BsThreeDotsVertical, BsX } from "react-icons/bs";
 import SelectInput from "./SelectInput";
 import { Form, Formik } from "formik";
 import AddTask from "./AddTask";
+import UpdateTool from "./UpdateTool";
 
 interface Props {
   task: TaskType;
@@ -74,23 +75,14 @@ const DisplayTask: React.FC<Props> = ({ task }) => {
               />
             )}
             {show ? (
-              <div className="absolute top-8 right-0 flex items-center rounded bg-slate-200 dark:bg-slate-900 shadow-lg">
-                <div
-                  className="cursor-pointer p-4 border-r border-r-slate-300 dark:border-r-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800"
-                  onClick={() => {
-                    setShow(false);
-                    setEdit(true);
-                  }}
-                >
-                  <BsPen className="text-xl text-gray-500 dark:text-gray-300" />
-                </div>
-                <div
-                  className="cursor-pointer p-4 hover:bg-slate-50 dark:hover:bg-slate-800"
-                  onClick={() => deleteTask(task.taskId)}
-                >
-                  <BsTrash className="text-xl text-gray-500 dark:text-gray-300" />
-                </div>
-              </div>
+              <UpdateTool
+                edit={() => {
+                  setShow(false);
+                  setEdit(true);
+                }}
+                deleteFn={() => deleteTask(task.taskId)}
+                icon
+              />
             ) : null}
           </div>
           <p className="text-gray-500 dark:text-gray-400 text-sm md:text-sm leading-relaxed">
