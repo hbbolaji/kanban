@@ -1,18 +1,13 @@
 import React, { useContext, useState } from "react";
 import Logo from "./Logo";
 import { TbLayoutBoardSplit } from "react-icons/tb";
-import {
-  BsFillSunFill,
-  BsMoonStarsFill,
-  BsEyeSlash,
-  BsToggleOn,
-  BsToggleOff,
-} from "react-icons/bs";
+import { BsFillSunFill, BsMoonStarsFill, BsEyeSlash } from "react-icons/bs";
 import { UtilityContext } from "../context/utilityContext";
 import { BoardContext } from "../context/boardContext";
 import { Link, useLocation } from "react-router-dom";
 import Modal from "./Modal";
 import AddProject from "./AddProject";
+import Toggle from "./Toggle";
 
 interface Props {
   closeSidebar?: () => void;
@@ -82,14 +77,7 @@ const Sidebar: React.FC<Props> = ({ closeSidebar, closeMobileSidebar }) => {
         <div className="space-y-4">
           <div className="bg-slate-200 dark:bg-slate-900 mx-5 rounded flex p-2 flex items-center justify-center space-x-6">
             <BsFillSunFill className="text-base md:text-xl text-gray-700 dark:text-gray-400" />
-            <div className="cursor-pointer" onClick={toggleTheme}>
-              {dark ? (
-                <BsToggleOn className="text-2xl md:text-4xl text-indigo-500" />
-              ) : (
-                <BsToggleOff className="text-2xl md:text-4xl text-indigo-500" />
-              )}
-            </div>
-
+            <Toggle click={toggleTheme} off={dark} />
             <BsMoonStarsFill className="text-base md:text-xl text-gray-700 dark:text-gray-400" />
           </div>
           <div
